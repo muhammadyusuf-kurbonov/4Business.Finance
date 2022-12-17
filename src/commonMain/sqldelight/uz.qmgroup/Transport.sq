@@ -1,0 +1,17 @@
+CREATE TABLE IF NOT EXISTS TRANSPORTS(
+    transportId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    driverName TEXT NOT NULL,
+    driverPhone TEXT NOT NULL,
+    transportNumber TEXT NOT NULL,
+    type TEXT NOT NULL
+);
+
+createNew:
+INSERT INTO TRANSPORTS(driverName, driverPhone, transportNumber, type)
+VALUES (?, ?, ?, ?);
+
+queryAll:
+SELECT * FROM TRANSPORTS;
+
+getById:
+SELECT * FROM TRANSPORTS WHERE transportId = :id;

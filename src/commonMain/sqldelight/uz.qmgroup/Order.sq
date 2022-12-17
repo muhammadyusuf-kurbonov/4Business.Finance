@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS ORDERS(
+    orderId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    note TEXT,
+    transportId INTEGER NOT NULL,
+    status TEXT NOT NULL,
+    pickoffPlace TEXT NOT NULL,
+    destinationPlace TEXT NOT NULL,
+    price REAL NOT NULL,
+    author TEXT NOT NULL
+);

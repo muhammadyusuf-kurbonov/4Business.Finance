@@ -32,6 +32,18 @@ kotlin {
 
                 // Koin Core features
                 api("io.insert-koin:koin-core:$koinVersion")
+
+                api(compose.foundation)
+                api(compose.runtime)
+                api(compose.material)
+                api(compose.materialIconsExtended)
+
+                implementation(compose.preview)
+            }
+        }
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test")) // This brings all the platform dependencies automatically
             }
         }
         val jvmMain by getting {
@@ -41,11 +53,6 @@ kotlin {
                 implementation("com.squareup.sqldelight:sqlite-driver:1.5.4")
                 // https://mvnrepository.com/artifact/com.googlecode.libphonenumber/libphonenumber
                 implementation("com.googlecode.libphonenumber:libphonenumber:8.13.2")
-
-                implementation(compose.materialIconsExtended)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.material3)
-                implementation(compose.preview)
             }
         }
         val jvmTest by getting
@@ -57,7 +64,7 @@ compose.desktop {
         mainClass = "MainKt"
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "LogisticsControl"
+            packageName = "LogiAdmin"
             packageVersion = "1.0.0"
         }
     }

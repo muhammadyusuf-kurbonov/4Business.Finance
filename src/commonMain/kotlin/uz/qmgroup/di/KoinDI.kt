@@ -7,6 +7,8 @@ import org.koin.dsl.module
 import uz.qmgroup.Database
 import uz.qmgroup.repository.AppRepository
 import uz.qmgroup.repository.AppRepositoryImpl
+import uz.qmgroup.viewModel.orders.OrderDialogViewModel
+import uz.qmgroup.viewModel.orders.OrdersViewModel
 import uz.qmgroup.viewModel.transports.TransportDialogViewModel
 import uz.qmgroup.viewModel.transports.TransportsViewModel
 
@@ -33,4 +35,6 @@ val repositoryModule = module {
 val viewModelsModule = module {
     singleOf(::TransportsViewModel)
     singleOf(::TransportDialogViewModel)
+    singleOf(::OrdersViewModel)
+    singleOf(::OrderDialogViewModel)
 }

@@ -15,3 +15,6 @@ SELECT * FROM TRANSPORTS;
 
 getById:
 SELECT * FROM TRANSPORTS WHERE transportId = :id;
+
+search:
+SELECT * FROM TRANSPORTS WHERE driverName LIKE '%' + :query + '%' OR driverPhone LIKE '%' + :query + '%' OR transportNumber LIKE '%' + :query + '%';

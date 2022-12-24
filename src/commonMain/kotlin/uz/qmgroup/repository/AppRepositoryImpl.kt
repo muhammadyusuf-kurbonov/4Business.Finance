@@ -7,12 +7,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import uz.qmgroup.Database
+import uz.qmgroup.models.Shipment
 import uz.qmgroup.models.Transport
 
 class AppRepositoryImpl(private val database: Database, driver: SqlDriver) : AppRepository {
     init {
         Database.Schema.create(driver)
     }
+
     override suspend fun createNewTransport(
         driverName: String,
         driverPhone: String,
@@ -22,19 +24,47 @@ class AppRepositoryImpl(private val database: Database, driver: SqlDriver) : App
         val transportQueries = database.transportQueries
 
         transportQueries.createNew(
-            driverName,
-            driverPhone,
-            transportNumber,
-            type
+            driverName = driverName,
+            driverPhone = driverPhone,
+            transportNumber = transportNumber,
+            type = type
         )
     }
 
     override fun getAllTransports(): Flow<List<Transport>> = database.transportQueries.queryAll().asFlow().mapToList()
-    override suspend fun getTransportById(id: Long): Transport? {
-        return try {
+
+    override suspend fun getTransportById(id: Long): Transport? = withContext(Dispatchers.IO) {
+        try {
             database.transportQueries.getById(id).executeAsOne()
         } catch (e: NullPointerException) {
             null
         }
+    }
+
+    override fun getAllShipments(): Flow<List<Shipment>> = database.orderQueries.queryAll().asFlow().mapToList()
+    override suspend fun searchTransport(query: String): List<Transport> = withContext(Dispatchers.IO) {
+        database.transportQueries.search(query).executeAsList()
+    }
+
+    override suspend fun createNewShipment(
+        note: String?,
+        orderPrefix: String?,
+        transportId: Long?,
+        status: String,
+        pickoffPlace: String,
+        destinationPlace: String,
+        price: Double,
+        author: String
+    ) = withContext(Dispatchers.IO) {
+        database.orderQueries.createNewOrder(
+            note = note,
+            transportId = transportId,
+            orderPrefix = orderPrefix,
+            status = status,
+            pickoffPlace = pickoffPlace,
+            destinationPlace = destinationPlace,
+            price = price,
+            author = author
+        )
     }
 }

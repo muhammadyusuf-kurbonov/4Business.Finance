@@ -1,11 +1,13 @@
 package uz.qmgroup.di
 
-import AppViewModel
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
+import uz.qmgroup.ui.screen.app.AppViewModel
+import uz.qmgroup.viewModel.orders.OrderDialogViewModel
+import uz.qmgroup.viewModel.orders.OrdersViewModel
 import uz.qmgroup.viewModel.transports.TransportDialogViewModel
 import uz.qmgroup.viewModel.transports.TransportsViewModel
 
@@ -25,4 +27,6 @@ object AppKoinComponent : KoinComponent {
     val appViewModel: AppViewModel by inject()
     val transportsViewModel: TransportsViewModel by inject()
     val transportDialogViewModel: TransportDialogViewModel by inject()
+    val ordersViewModel: OrdersViewModel by inject()
+    val orderDialogViewModel: OrderDialogViewModel by inject()
 }

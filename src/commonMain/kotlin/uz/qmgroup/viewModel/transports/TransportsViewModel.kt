@@ -3,6 +3,7 @@ package uz.qmgroup.viewModel.transports
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import uz.qmgroup.repository.AppRepository
+import uz.qmgroup.viewModel.base.BaseViewModel
 
 class TransportsViewModel(private val repository: AppRepository): BaseViewModel() {
     private val _transportsScreenState = MutableStateFlow<TransportsScreenState>(TransportsScreenState.Loading)

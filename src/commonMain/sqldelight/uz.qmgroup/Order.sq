@@ -1,10 +1,18 @@
 CREATE TABLE IF NOT EXISTS ORDERS(
     orderId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     note TEXT,
-    transportId INTEGER NOT NULL,
+    orderPrefix TEXT,
+    transportId INTEGER,
     status TEXT NOT NULL,
     pickoffPlace TEXT NOT NULL,
     destinationPlace TEXT NOT NULL,
     price REAL NOT NULL,
     author TEXT NOT NULL
 );
+
+queryAll:
+SELECT * FROM ORDERS;
+
+createNewOrder:
+INSERT INTO ORDERS (note, orderPrefix, transportId, status, pickoffPlace, destinationPlace, price, author)
+VALUES (?,?,?,?,?,?,?,?);

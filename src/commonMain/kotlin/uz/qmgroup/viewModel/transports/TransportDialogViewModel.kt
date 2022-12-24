@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import uz.qmgroup.models.Transport
 import uz.qmgroup.repository.AppRepository
+import uz.qmgroup.viewModel.base.BaseViewModel
 
 class TransportDialogViewModel(private val repository: AppRepository): BaseViewModel() {
     private val _state = MutableStateFlow<TransportDialogState>(TransportDialogState.Default)

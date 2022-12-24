@@ -1,4 +1,4 @@
-package providers
+package uz.qmgroup.ui.providers
 
 import androidx.compose.runtime.staticCompositionLocalOf
 

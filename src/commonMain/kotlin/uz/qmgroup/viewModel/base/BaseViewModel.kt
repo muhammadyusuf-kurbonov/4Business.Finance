@@ -1,4 +1,4 @@
-package uz.qmgroup.viewModel.transports
+package uz.qmgroup.viewModel.base
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job

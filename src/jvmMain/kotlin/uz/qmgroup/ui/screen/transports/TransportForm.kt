@@ -1,20 +1,17 @@
-package screens.transports.modal
+package uz.qmgroup.ui.screen.transports
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Popup
 import uz.qmgroup.models.TransportType
 import uz.qmgroup.utils.PhoneNumberVisualTransformation
 
@@ -76,25 +73,36 @@ fun TransportForm(
             singleLine = true
         )
 
-        OutlinedTextField(
-            value = transportTypeLabels[transportType] ?: transportType.name,
-            onValueChange = {},
-            modifier = Modifier.fillMaxWidth().onFocusChanged {
-                dropdownExpanded = it.isFocused
-            },
-            label = {
-                Text("Type")
-            },
-            readOnly = true,
-            singleLine = true
-        )
+        Box(modifier = Modifier) {
+            OutlinedTextField(
+                value = transportTypeLabels[transportType] ?: transportType.name,
+                onValueChange = {},
+                modifier = Modifier.fillMaxWidth().onFocusChanged {
+                    dropdownExpanded = it.isFocused
+                },
+                label = {
+                    Text("Type")
+                },
+                readOnly = true,
+                singleLine = true
+            )
 
-        DropdownMenu(expanded = dropdownExpanded, onDismissRequest = { dropdownExpanded = false }) {
-            TransportType.values().forEach {
-                DropdownMenuItem(
-                    onClick = { onTransportTypeChange(it); dropdownExpanded = false }
-                ) {
-                    Text(transportTypeLabels[it] ?: it.name)
+
+            if (dropdownExpanded) {
+                Popup(onDismissRequest = { dropdownExpanded = false }) {
+                    Card {
+                        LazyColumn(modifier = Modifier.padding(8.dp)) {
+                            TransportType.values().forEach {
+                                item(key = it.value) {
+                                    Row (modifier = Modifier.clickable {
+                                        onTransportTypeChange(it); dropdownExpanded = false
+                                    }) {
+                                        Text(transportTypeLabels[it] ?: it.name)
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

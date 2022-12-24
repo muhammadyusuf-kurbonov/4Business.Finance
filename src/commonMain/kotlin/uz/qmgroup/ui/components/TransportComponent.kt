@@ -1,4 +1,4 @@
-package components
+package uz.qmgroup.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -6,9 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.LocalShipping
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,8 +23,8 @@ fun TransportComponent(modifier: Modifier = Modifier, transport: Transport) {
         Icon(imageVector = Icons.Outlined.LocalShipping, contentDescription = null)
 
         Column {
-            Text(transport.driverName, style = MaterialTheme.typography.bodyLarge)
-            Text(transport.transportNumber, style = MaterialTheme.typography.bodyMedium)
+            Text(transport.driverName, style = MaterialTheme.typography.body1)
+            Text(transport.transportNumber, style = MaterialTheme.typography.body2)
         }
     }
 }

@@ -93,7 +93,8 @@ fun PreviewShipmentComponent() {
                 pickoffPlace = "Tashkent",
                 destinationPlace = "Chiroqchi",
                 price = 5000000.0,
-                author = "Diyorbek"
+                author = "Diyorbek",
+                transport = null
             )
         )
     }

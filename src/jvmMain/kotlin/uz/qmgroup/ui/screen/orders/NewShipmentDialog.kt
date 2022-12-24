@@ -81,7 +81,8 @@ fun NewOrderDialog(
                                         pickoffPlace = pickupAddress,
                                         destinationPlace = destinationAddress,
                                         price = price,
-                                        author = "Diyorbek"
+                                        author = "Diyorbek",
+                                        transport = null
                                     )
                                 )
                             }, enabled = currentState == OrderDialogState.Default) {

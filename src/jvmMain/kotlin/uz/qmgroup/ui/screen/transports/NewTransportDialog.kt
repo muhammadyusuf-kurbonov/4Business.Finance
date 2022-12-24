@@ -86,7 +86,7 @@ fun NewTransportDialog(
                                         driverName = driverName,
                                         driverPhone = driverPhone,
                                         transportNumber = transportNumber,
-                                        type = transportType.value
+                                        type = transportType
                                     )
                                 )
                             }, enabled = it == TransportDialogState.Default) {

@@ -93,7 +93,7 @@ fun TransportForm(
                     Card {
                         LazyColumn(modifier = Modifier.padding(8.dp)) {
                             TransportType.values().forEach {
-                                item(key = it.value) {
+                                item(key = it.stringValue) {
                                     Row (modifier = Modifier.clickable {
                                         onTransportTypeChange(it); dropdownExpanded = false
                                     }) {

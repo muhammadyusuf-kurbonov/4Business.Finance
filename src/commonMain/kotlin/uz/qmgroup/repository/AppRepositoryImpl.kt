@@ -5,6 +5,7 @@ import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import uz.qmgroup.Database
 import uz.qmgroup.models.Shipment
@@ -32,18 +33,21 @@ class AppRepositoryImpl(private val database: Database, driver: SqlDriver) : App
     }
 
     override fun getAllTransports(): Flow<List<Transport>> = database.transportQueries.queryAll().asFlow().mapToList()
+        .map { it.map { transport -> transport.toTransport() } }
 
     override suspend fun getTransportById(id: Long): Transport? = withContext(Dispatchers.IO) {
         try {
-            database.transportQueries.getById(id).executeAsOne()
+            database.transportQueries.getById(id).executeAsOne().toTransport()
         } catch (e: NullPointerException) {
             null
         }
     }
 
-    override fun getAllShipments(): Flow<List<Shipment>> = database.orderQueries.queryAll().asFlow().mapToList()
+    override fun getAllShipments(): Flow<List<Shipment>> =
+        database.orderQueries.queryAll().asFlow().mapToList().map { it.map { order -> order.toShipment() } }
+
     override suspend fun searchTransport(query: String): List<Transport> = withContext(Dispatchers.IO) {
-        database.transportQueries.search(query).executeAsList()
+        database.transportQueries.search(query).executeAsList().map { it.toTransport() }
     }
 
     override suspend fun createNewShipment(

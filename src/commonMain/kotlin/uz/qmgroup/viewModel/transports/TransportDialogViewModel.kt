@@ -24,7 +24,7 @@ class TransportDialogViewModel(private val repository: AppRepository): BaseViewM
                     transport.driverName,
                     transport.driverPhone,
                     transport.transportNumber,
-                    transport.type
+                    transport.type.stringValue
                 )
                 _state.update { TransportDialogState.SaveCompleted }
             } catch (e: Exception) {

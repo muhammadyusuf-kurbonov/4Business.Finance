@@ -8,8 +8,8 @@ import androidx.compose.ui.Modifier
 import uz.qmgroup.ui.layouts.AppLayout
 import uz.qmgroup.ui.layouts.AppScreenState
 import uz.qmgroup.ui.screen.home.HomeScreenContent
-import uz.qmgroup.ui.screen.orders.NewOrderDialog
-import uz.qmgroup.ui.screen.orders.ShipmentsScreen
+import uz.qmgroup.ui.screen.shipments.NewOrderDialog
+import uz.qmgroup.ui.screen.shipments.ShipmentsScreen
 import uz.qmgroup.ui.screen.transports.TransportsScreen
 import uz.qmgroup.ui.theme.LCSAppTheme
 

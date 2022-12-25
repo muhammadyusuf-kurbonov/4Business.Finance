@@ -16,3 +16,6 @@ SELECT * FROM ORDERS;
 createNewOrder:
 INSERT INTO ORDERS (note, orderPrefix, transportId, status, pickoffPlace, destinationPlace, price, author)
 VALUES (?,?,?,?,?,?,?,?);
+
+cancelOrder:
+UPDATE ORDERS SET status = "Cancelled" WHERE orderId = :id;

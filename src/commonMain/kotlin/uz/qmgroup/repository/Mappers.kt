@@ -1,6 +1,7 @@
 package uz.qmgroup.repository
 
 import uz.qmgroup.models.Shipment
+import uz.qmgroup.models.ShipmentStatus
 import uz.qmgroup.models.Transport
 import uz.qmgroup.models.TransportType
 import uzqmgroup.ORDERS
@@ -11,7 +12,11 @@ fun ORDERS.toShipment() = Shipment(
     orderPrefix = orderPrefix.orEmpty(),
     note = note.orEmpty(),
     transportId = transportId,
-    status = status,
+    status = try {
+        ShipmentStatus.valueOf(status.uppercase())
+    } catch (e: IllegalArgumentException) {
+        ShipmentStatus.UNKNOWN
+    },
     transport = null,
     pickoffPlace = pickoffPlace,
     destinationPlace = destinationPlace,

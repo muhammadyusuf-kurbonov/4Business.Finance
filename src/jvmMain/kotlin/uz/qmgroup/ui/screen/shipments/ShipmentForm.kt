@@ -1,4 +1,4 @@
-package uz.qmgroup.ui.screen.orders
+package uz.qmgroup.ui.screen.shipments
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -64,7 +64,6 @@ fun ShipmentForm(
                 onPriceChanged(it.toDouble())
             }
         ) {
-            println("current value ${it.valueAsString}")
             OutlinedTextField(
                 value = it.valueAsString,
                 onValueChange = it.onValueChanged,

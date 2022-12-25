@@ -1,4 +1,4 @@
-package uz.qmgroup.viewModel.orders
+package uz.qmgroup.viewModel.shipments
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -8,42 +8,42 @@ import uz.qmgroup.models.Shipment
 import uz.qmgroup.repository.AppRepository
 import uz.qmgroup.viewModel.base.BaseViewModel
 
-class OrderDialogViewModel(private val repository: AppRepository) : BaseViewModel() {
-    private val _state = MutableStateFlow<OrderDialogState>(OrderDialogState.Default)
+class ShipmentAddEditViewModel(private val repository: AppRepository) : BaseViewModel() {
+    private val _state = MutableStateFlow<ShipmentDialogState>(ShipmentDialogState.Default)
     val state = _state.asStateFlow()
 
     fun initialize() {
-        _state.update { OrderDialogState.Default }
+        _state.update { ShipmentDialogState.Default }
     }
 
     fun save(shipment: Shipment) {
         viewModelScope.launch {
-            _state.update { OrderDialogState.SavePending }
+            _state.update { ShipmentDialogState.SavePending }
             try {
                 repository.createNewShipment(
                     shipment.note,
                     shipment.orderPrefix,
                     shipment.transportId,
-                    shipment.status,
+                    shipment.status.name,
                     shipment.pickoffPlace,
                     shipment.destinationPlace,
                     shipment.price,
                     shipment.author
                 )
 
-                _state.update { OrderDialogState.SaveCompleted }
+                _state.update { ShipmentDialogState.SaveCompleted }
             } catch (e: Exception) {
-                _state.update { OrderDialogState.SaveFailed(e.localizedMessage) }
+                _state.update { ShipmentDialogState.SaveFailed(e.localizedMessage) }
             }
         }
     }
 
     fun fetch(id: Long) {
         viewModelScope.launch {
-            _state.update { OrderDialogState.Fetching }
+            _state.update { ShipmentDialogState.Fetching }
             val transport = repository.getTransportById(id)
             if (transport != null)
-                _state.update { OrderDialogState.DataFetched(transport) }
+                _state.update { ShipmentDialogState.DataFetched(transport) }
         }
     }
 }

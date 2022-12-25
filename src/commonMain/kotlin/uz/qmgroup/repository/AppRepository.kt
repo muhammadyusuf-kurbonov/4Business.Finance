@@ -30,4 +30,6 @@ interface AppRepository {
         price: Double,
         author: String
     )
+
+    suspend fun cancelShipment(id: Long)
 }

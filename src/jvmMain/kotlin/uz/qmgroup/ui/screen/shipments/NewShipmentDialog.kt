@@ -1,4 +1,4 @@
-package uz.qmgroup.ui.screen.orders
+package uz.qmgroup.ui.screen.shipments
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -13,15 +13,16 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.rememberDialogState
 import uz.qmgroup.di.AppKoinComponent
 import uz.qmgroup.models.Shipment
+import uz.qmgroup.models.ShipmentStatus
 import uz.qmgroup.ui.providers.LocalSnackbarProvider
-import uz.qmgroup.viewModel.orders.OrderDialogState
-import uz.qmgroup.viewModel.orders.OrderDialogViewModel
+import uz.qmgroup.viewModel.shipments.ShipmentDialogState
+import uz.qmgroup.viewModel.shipments.ShipmentAddEditViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun NewOrderDialog(
     onDismissRequest: () -> Unit,
-    viewModel: OrderDialogViewModel = AppKoinComponent.orderDialogViewModel
+    viewModel: ShipmentAddEditViewModel = AppKoinComponent.shipmentAddEditViewModel
 ) {
     DisposableEffect(Unit) {
         viewModel.initialize()
@@ -36,7 +37,7 @@ fun NewOrderDialog(
     val (price, onPriceChange) = remember { mutableStateOf(0.0) }
 
     when (currentState) {
-        OrderDialogState.Default, OrderDialogState.SavePending -> {
+        ShipmentDialogState.Default, ShipmentDialogState.SavePending -> {
             Dialog(
                 onCloseRequest = onDismissRequest,
                 state = rememberDialogState(
@@ -77,7 +78,7 @@ fun NewOrderDialog(
                                         orderPrefix = orderPrefix,
                                         note = "",
                                         transportId = 0,
-                                        status = "Created",
+                                        status = ShipmentStatus.CREATED,
                                         pickoffPlace = pickupAddress,
                                         destinationPlace = destinationAddress,
                                         price = price,
@@ -85,7 +86,7 @@ fun NewOrderDialog(
                                         transport = null
                                     )
                                 )
-                            }, enabled = currentState == OrderDialogState.Default) {
+                            }, enabled = currentState == ShipmentDialogState.Default) {
                                 Text("Сохранить")
                             }
                         }
@@ -94,8 +95,8 @@ fun NewOrderDialog(
             }
         }
 
-        is OrderDialogState.SaveFailed -> {}
-        OrderDialogState.SaveCompleted -> {
+        is ShipmentDialogState.SaveFailed -> {}
+        ShipmentDialogState.SaveCompleted -> {
             val dispatcher = LocalSnackbarProvider.current
             LaunchedEffect(Unit) {
                 dispatcher.dispatch("Новый груз добавлен")

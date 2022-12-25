@@ -71,4 +71,8 @@ class AppRepositoryImpl(private val database: Database, driver: SqlDriver) : App
             author = author
         )
     }
+
+    override suspend fun cancelShipment(id: Long) = withContext(Dispatchers.IO) {
+        database.orderQueries.cancelOrder(id)
+    }
 }

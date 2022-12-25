@@ -1,26 +1,35 @@
 package uz.qmgroup.ui.components
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import uz.qmgroup.models.Shipment
+import uz.qmgroup.models.ShipmentStatus
 import java.text.NumberFormat
 
+val statusLabels = mapOf(
+    ShipmentStatus.CANCELLED to "Отменен",
+    ShipmentStatus.CREATED to "Открыт",
+    ShipmentStatus.UNKNOWN to "Неизвестно"
+)
+
 @Composable
-fun ShipmentComponent(modifier: Modifier = Modifier, shipment: Shipment) {
+fun ShipmentComponent(
+    modifier: Modifier = Modifier,
+    shipment: Shipment,
+    isInProgress: Boolean,
+    cancelShipment: () -> Unit,
+    requestDriverSelect: () -> Unit
+) {
     Card(modifier = modifier.width(IntrinsicSize.Min)) {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -30,13 +39,21 @@ fun ShipmentComponent(modifier: Modifier = Modifier, shipment: Shipment) {
                     fontWeight = FontWeight.Bold
                 )
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Box(modifier = Modifier.size(15.dp).clip(CircleShape).background(MaterialTheme.colors.secondary))
+                val color = when(shipment.status) {
+                    ShipmentStatus.CANCELLED -> MaterialTheme.colors.error
+                    ShipmentStatus.CREATED -> MaterialTheme.colors.primaryVariant
+                    else -> MaterialTheme.colors.secondary
+                }
 
-                    Text(shipment.status, style = MaterialTheme.typography.body2)
+                CompositionLocalProvider(LocalContentColor provides color) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Box(modifier = Modifier.size(15.dp).clip(CircleShape).background(LocalContentColor.current))
+
+                        Text(statusLabels[shipment.status] ?: shipment.status.name, style = MaterialTheme.typography.body2)
+                    }
                 }
             }
 
@@ -52,7 +69,15 @@ fun ShipmentComponent(modifier: Modifier = Modifier, shipment: Shipment) {
                     Spacer(Modifier.height(8.dp))
 
                     Text("Номер грузовика", style = MaterialTheme.typography.caption)
-                    Text("75K105LA", style = MaterialTheme.typography.body1, fontWeight = FontWeight.Bold)
+                    if (shipment.transport != null) {
+                        Text(
+                            shipment.transport.transportNumber,
+                            style = MaterialTheme.typography.body1,
+                            fontWeight = FontWeight.Bold
+                        )
+                    } else {
+                        Text("- -", style = MaterialTheme.typography.body1)
+                    }
 
                     Spacer(Modifier.height(8.dp))
 
@@ -74,6 +99,25 @@ fun ShipmentComponent(modifier: Modifier = Modifier, shipment: Shipment) {
 //                    contentDescription = "Tent-truck",
 //                    contentScale = ContentScale.Inside,
 //                )
+
+            }
+
+            if (!isInProgress) {
+                Row(modifier = Modifier.align(Alignment.End)) {
+                    ConfirmButtonWrapper(
+                        onConfirmed = cancelShipment,
+                        message = "Вы точно хотите отменить этот груз?",
+                    ) {
+                        TextButton(onClick = it.onClick, modifier = Modifier.weight(1f)) {
+                            Text("Отменить")
+                        }
+                    }
+                    Button(onClick = requestDriverSelect, modifier = Modifier.weight(1f)) {
+                        Text("Назначить водителя")
+                    }
+                }
+            } else {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
             }
         }
     }
@@ -89,13 +133,16 @@ fun PreviewShipmentComponent() {
                 note = "Test shipment",
                 orderPrefix = "CC",
                 transportId = null,
-                status = "On way",
+                status = ShipmentStatus.CREATED,
                 pickoffPlace = "Tashkent",
                 destinationPlace = "Chiroqchi",
                 price = 5000000.0,
                 author = "Diyorbek",
-                transport = null
-            )
+                transport = null,
+            ),
+            isInProgress = false,
+            cancelShipment = {},
+            requestDriverSelect = {}
         )
     }
 }

@@ -39,7 +39,7 @@ fun ShipmentComponent(
                     fontWeight = FontWeight.Bold
                 )
 
-                val color = when(shipment.status) {
+                val color = when (shipment.status) {
                     ShipmentStatus.CANCELLED -> MaterialTheme.colors.error
                     ShipmentStatus.CREATED -> MaterialTheme.colors.primaryVariant
                     else -> MaterialTheme.colors.secondary
@@ -52,7 +52,10 @@ fun ShipmentComponent(
                     ) {
                         Box(modifier = Modifier.size(15.dp).clip(CircleShape).background(LocalContentColor.current))
 
-                        Text(statusLabels[shipment.status] ?: shipment.status.name, style = MaterialTheme.typography.body2)
+                        Text(
+                            statusLabels[shipment.status] ?: shipment.status.name,
+                            style = MaterialTheme.typography.body2
+                        )
                     }
                 }
             }
@@ -103,17 +106,27 @@ fun ShipmentComponent(
             }
 
             if (!isInProgress) {
-                Row(modifier = Modifier.align(Alignment.End)) {
-                    ConfirmButtonWrapper(
-                        onConfirmed = cancelShipment,
-                        message = "Вы точно хотите отменить этот груз?",
-                    ) {
-                        TextButton(onClick = it.onClick, modifier = Modifier.weight(1f)) {
-                            Text("Отменить")
+                when (shipment.status) {
+                    ShipmentStatus.CANCELLED -> {
+                        Button(onClick = {}, enabled = false, modifier = Modifier.fillMaxWidth()) {
+                            Text("Отменен")
                         }
                     }
-                    Button(onClick = requestDriverSelect, modifier = Modifier.weight(1f)) {
-                        Text("Назначить водителя")
+
+                    else -> {
+                        Row(modifier = Modifier.align(Alignment.End)) {
+                            ConfirmButtonWrapper(
+                                onConfirmed = cancelShipment,
+                                message = "Вы точно хотите отменить этот груз?",
+                            ) {
+                                TextButton(onClick = it.onClick, modifier = Modifier.weight(1f)) {
+                                    Text("Отменить")
+                                }
+                            }
+                            Button(onClick = requestDriverSelect, modifier = Modifier.weight(1f)) {
+                                Text("Назначить водителя")
+                            }
+                        }
                     }
                 }
             } else {

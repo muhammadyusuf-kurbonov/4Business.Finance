@@ -1,14 +1,19 @@
 package uz.qmgroup.ui.screen.shipments
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import uz.qmgroup.di.AppKoinComponent
@@ -18,7 +23,6 @@ import uz.qmgroup.ui.components.ShipmentComponent
 import uz.qmgroup.viewModel.shipments.ShipmentsScreenState
 import uz.qmgroup.viewModel.shipments.ShipmentsViewModel
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun ShipmentsScreen(
     modifier: Modifier = Modifier,
@@ -32,10 +36,6 @@ fun ShipmentsScreen(
 
     val state by viewModel.shipmentsScreenState.collectAsState()
     val currentWorkingShipments by viewModel.workingShipmentsList.collectAsState()
-
-    LaunchedEffect(currentWorkingShipments) {
-        println("Current working shipments changed to $currentWorkingShipments")
-    }
 
     Column(modifier = modifier.animateContentSize()) {
         Text(

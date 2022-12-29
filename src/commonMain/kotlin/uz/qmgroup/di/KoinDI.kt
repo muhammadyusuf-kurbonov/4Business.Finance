@@ -1,6 +1,7 @@
 package uz.qmgroup.di
 
 import com.squareup.sqldelight.db.SqlDriver
+import com.squareup.sqldelight.logs.LogSqliteDriver
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -10,6 +11,7 @@ import uz.qmgroup.repository.AppRepositoryImpl
 import uz.qmgroup.viewModel.shipments.ShipmentAddEditViewModel
 import uz.qmgroup.viewModel.shipments.ShipmentsViewModel
 import uz.qmgroup.viewModel.transports.TransportDialogViewModel
+import uz.qmgroup.viewModel.transports.TransportsSearchViewModel
 import uz.qmgroup.viewModel.transports.TransportsViewModel
 
 expect class DatabaseDriverProvider() {
@@ -20,7 +22,14 @@ val driverProviderModule = module {
     singleOf(::DatabaseDriverProvider)
 
     single {
-        Database(get<DatabaseDriverProvider>().driver)
+        Database(
+            LogSqliteDriver(
+                sqlDriver = get<DatabaseDriverProvider>().driver,
+                logger = {
+                    println("Running query $it")
+                }
+            )
+        )
     }
 
     single {
@@ -37,4 +46,5 @@ val viewModelsModule = module {
     singleOf(::TransportDialogViewModel)
     singleOf(::ShipmentsViewModel)
     singleOf(::ShipmentAddEditViewModel)
+    singleOf(::TransportsSearchViewModel)
 }

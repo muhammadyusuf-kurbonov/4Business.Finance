@@ -10,13 +10,11 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import uz.qmgroup.di.AppKoinComponent
+import uz.qmgroup.models.Shipment
 import uz.qmgroup.ui.components.EmptyScreen
 import uz.qmgroup.ui.components.LoadingScreen
 import uz.qmgroup.ui.components.ShipmentComponent
@@ -36,6 +34,8 @@ fun ShipmentsScreen(
 
     val state by viewModel.shipmentsScreenState.collectAsState()
     val currentWorkingShipments by viewModel.workingShipmentsList.collectAsState()
+    var currentActiveShipment by remember { mutableStateOf<Shipment?>(null) }
+    var showSelectDriverDialog by remember { mutableStateOf(false) }
 
     Column(modifier = modifier.animateContentSize()) {
         Text(
@@ -47,23 +47,39 @@ fun ShipmentsScreen(
         when (val currentState = state) {
             is ShipmentsScreenState.DataFetched -> {
                 LazyVerticalGrid(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize().padding(),
                     columns = GridCells.Adaptive(450.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     items(currentState.orders) { shipment ->
                         ShipmentComponent(
-                            modifier = Modifier,
                             shipment = shipment,
                             isInProgress = currentWorkingShipments.contains(shipment.orderId),
                             cancelShipment = {
                                 viewModel.cancelShipment(shipment)
                             },
-                            requestDriverSelect = {}
+                            requestDriverSelect = {
+                                currentActiveShipment = shipment
+                                showSelectDriverDialog = true
+                            }
                         )
                     }
                 }
+
+                if (showSelectDriverDialog)
+                    SelectDriverDialog(
+                        onCloseRequest = { showSelectDriverDialog = false },
+                        selectDriver = {
+                            val shipment = currentActiveShipment
+
+                            if (shipment != null)
+                                viewModel.assignShipment(
+                                    shipment = shipment,
+                                    transport = it
+                                )
+                        }
+                    )
             }
 
             ShipmentsScreenState.Loading -> {

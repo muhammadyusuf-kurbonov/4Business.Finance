@@ -1,5 +1,6 @@
 package uz.qmgroup.repository
 
+import uz.qmgroup.Database
 import uz.qmgroup.models.Shipment
 import uz.qmgroup.models.ShipmentStatus
 import uz.qmgroup.models.Transport
@@ -7,7 +8,7 @@ import uz.qmgroup.models.TransportType
 import uzqmgroup.ORDERS
 import uzqmgroup.TRANSPORTS
 
-fun ORDERS.toShipment() = Shipment(
+fun ORDERS.toShipment(database: Database) = Shipment(
     orderId = orderId,
     orderPrefix = orderPrefix.orEmpty(),
     note = note.orEmpty(),
@@ -17,7 +18,13 @@ fun ORDERS.toShipment() = Shipment(
     } catch (e: IllegalArgumentException) {
         ShipmentStatus.UNKNOWN
     },
-    transport = null,
+    transport = transportId?.let {
+        try {
+            database.transportQueries.getById(it).executeAsOne().toTransport()
+        } catch (e: NullPointerException) {
+            null
+        }
+    },
     pickoffPlace = pickoffPlace,
     destinationPlace = destinationPlace,
     price = price,

@@ -9,6 +9,7 @@ import uz.qmgroup.ui.screen.app.AppViewModel
 import uz.qmgroup.viewModel.shipments.ShipmentAddEditViewModel
 import uz.qmgroup.viewModel.shipments.ShipmentsViewModel
 import uz.qmgroup.viewModel.transports.TransportDialogViewModel
+import uz.qmgroup.viewModel.transports.TransportsSearchViewModel
 import uz.qmgroup.viewModel.transports.TransportsViewModel
 
 object AppKoinComponent : KoinComponent {
@@ -29,4 +30,5 @@ object AppKoinComponent : KoinComponent {
     val transportDialogViewModel: TransportDialogViewModel by inject()
     val shipmentsViewModel: ShipmentsViewModel by inject()
     val shipmentAddEditViewModel: ShipmentAddEditViewModel by inject()
+    val transportsSearchViewModel: TransportsSearchViewModel by inject()
 }

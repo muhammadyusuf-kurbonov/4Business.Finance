@@ -1,6 +1,7 @@
 package uz.qmgroup.ui.components
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -10,6 +11,8 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import uz.qmgroup.models.Shipment
@@ -19,6 +22,7 @@ import java.text.NumberFormat
 val statusLabels = mapOf(
     ShipmentStatus.CANCELLED to "Отменен",
     ShipmentStatus.CREATED to "Открыт",
+    ShipmentStatus.ASSIGNED to "Назначен",
     ShipmentStatus.UNKNOWN to "Неизвестно"
 )
 
@@ -30,7 +34,7 @@ fun ShipmentComponent(
     cancelShipment: () -> Unit,
     requestDriverSelect: () -> Unit
 ) {
-    Card(modifier = modifier.width(IntrinsicSize.Min)) {
+    Card(modifier = modifier.width(IntrinsicSize.Min), shape = RectangleShape, elevation = 1.dp) {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(

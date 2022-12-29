@@ -3,6 +3,7 @@ package uz.qmgroup.viewModel.shipments
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import uz.qmgroup.models.Shipment
+import uz.qmgroup.models.Transport
 import uz.qmgroup.repository.AppRepository
 import uz.qmgroup.viewModel.base.BaseViewModel
 
@@ -31,6 +32,14 @@ class ShipmentsViewModel(private val repository: AppRepository): BaseViewModel()
         _workingShipmentsList.update { it.toMutableList().apply { add(shipment.orderId) } }
         viewModelScope.launch {
             repository.cancelShipment(shipment.orderId)
+            _workingShipmentsList.update { it.toMutableList().apply { remove(shipment.orderId) } }
+        }
+    }
+
+    fun assignShipment(shipment: Shipment, transport: Transport) {
+        _workingShipmentsList.update { it.toMutableList().apply { add(shipment.orderId) } }
+        viewModelScope.launch {
+            repository.assignTransportToShipment(shipment.orderId, transport)
             _workingShipmentsList.update { it.toMutableList().apply { remove(shipment.orderId) } }
         }
     }

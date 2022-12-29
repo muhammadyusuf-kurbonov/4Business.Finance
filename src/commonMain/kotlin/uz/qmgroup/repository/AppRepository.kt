@@ -14,6 +14,8 @@ interface AppRepository {
 
     fun getAllTransports(): Flow<List<Transport>>
 
+    suspend fun searchTransports(query: String): List<Transport>
+
     suspend fun getTransportById(id: Long): Transport?
 
     fun getAllShipments(): Flow<List<Shipment>>
@@ -32,4 +34,6 @@ interface AppRepository {
     )
 
     suspend fun cancelShipment(id: Long)
+
+    suspend fun assignTransportToShipment(id: Long, transport: Transport)
 }

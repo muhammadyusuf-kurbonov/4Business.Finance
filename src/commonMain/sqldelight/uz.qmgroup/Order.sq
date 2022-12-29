@@ -19,3 +19,6 @@ VALUES (?,?,?,?,?,?,?,?);
 
 cancelOrder:
 UPDATE ORDERS SET status = "Cancelled" WHERE orderId = :id;
+
+assignOrder:
+UPDATE ORDERS SET transportId = :transportId, status = "Assigned" WHERE orderId = :id;

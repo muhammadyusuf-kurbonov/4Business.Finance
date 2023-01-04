@@ -1,7 +1,6 @@
 package uz.qmgroup.ui.components
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -11,7 +10,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -23,6 +21,8 @@ val statusLabels = mapOf(
     ShipmentStatus.CANCELLED to "Отменен",
     ShipmentStatus.CREATED to "Открыт",
     ShipmentStatus.ASSIGNED to "Назначен",
+    ShipmentStatus.ON_WAY to "В пути",
+    ShipmentStatus.COMPLETED to "Завершён",
     ShipmentStatus.UNKNOWN to "Неизвестно"
 )
 
@@ -32,7 +32,9 @@ fun ShipmentComponent(
     shipment: Shipment,
     isInProgress: Boolean,
     cancelShipment: () -> Unit,
-    requestDriverSelect: () -> Unit
+    startShipment: () -> Unit,
+    completeShipment: () -> Unit,
+    requestDriverSelect: () -> Unit,
 ) {
     Card(modifier = modifier.width(IntrinsicSize.Min), shape = RectangleShape, elevation = 1.dp) {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -116,8 +118,7 @@ fun ShipmentComponent(
                             Text("Отменен")
                         }
                     }
-
-                    else -> {
+                    ShipmentStatus.CREATED -> {
                         Row(modifier = Modifier.align(Alignment.End)) {
                             ConfirmButtonWrapper(
                                 onConfirmed = cancelShipment,
@@ -130,6 +131,46 @@ fun ShipmentComponent(
                             Button(onClick = requestDriverSelect, modifier = Modifier.weight(1f)) {
                                 Text("Назначить водителя")
                             }
+                        }
+                    }
+                    ShipmentStatus.ASSIGNED -> {
+                        Row(modifier = Modifier.align(Alignment.End)) {
+                            ConfirmButtonWrapper(
+                                onConfirmed = cancelShipment,
+                                message = "Вы точно хотите отменить этот груз?",
+                            ) {
+                                TextButton(onClick = it.onClick, modifier = Modifier.weight(1f)) {
+                                    Text("Отменить")
+                                }
+                            }
+                            Button(onClick = startShipment, modifier = Modifier.weight(1f)) {
+                                Text("Отправка")
+                            }
+                        }
+                    }
+                    ShipmentStatus.ON_WAY -> {
+                        Row(modifier = Modifier.align(Alignment.End)) {
+                            ConfirmButtonWrapper(
+                                onConfirmed = cancelShipment,
+                                message = "Вы точно хотите отменить этот груз?",
+                            ) {
+                                TextButton(onClick = it.onClick, modifier = Modifier.weight(1f)) {
+                                    Text("Отменить")
+                                }
+                            }
+                            Button(onClick = completeShipment, modifier = Modifier.weight(1f)) {
+                                Text("Прибытие")
+                            }
+                        }
+                    }
+                    ShipmentStatus.COMPLETED -> {
+                        Button(onClick = {}, enabled = false, modifier = Modifier.fillMaxWidth()) {
+                            Text("Завершён")
+                        }
+                    }
+                    ShipmentStatus.UNKNOWN -> {
+                        Button(onClick = {}, enabled = false, modifier = Modifier.fillMaxWidth()) {
+                            Text("Неизвестно")
                         }
                     }
                 }
@@ -159,7 +200,9 @@ fun PreviewShipmentComponent() {
             ),
             isInProgress = false,
             cancelShipment = {},
-            requestDriverSelect = {}
+            requestDriverSelect = {},
+            startShipment = {},
+            completeShipment = {}
         )
     }
 }

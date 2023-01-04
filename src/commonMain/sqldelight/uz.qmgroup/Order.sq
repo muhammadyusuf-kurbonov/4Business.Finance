@@ -1,15 +1,3 @@
-CREATE TABLE IF NOT EXISTS ORDERS(
-    orderId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    note TEXT,
-    orderPrefix TEXT,
-    transportId INTEGER,
-    status TEXT NOT NULL,
-    pickoffPlace TEXT NOT NULL,
-    destinationPlace TEXT NOT NULL,
-    price REAL NOT NULL,
-    author TEXT NOT NULL
-);
-
 queryAll:
 SELECT * FROM ORDERS;
 
@@ -22,3 +10,9 @@ UPDATE ORDERS SET status = "Cancelled" WHERE orderId = :id;
 
 assignOrder:
 UPDATE ORDERS SET transportId = :transportId, status = "Assigned" WHERE orderId = :id;
+
+executeOrder:
+UPDATE ORDERS SET status = "On_way" WHERE orderId = :id;
+
+completeOrder:
+UPDATE ORDERS SET status = "Completed" WHERE orderId = :id;

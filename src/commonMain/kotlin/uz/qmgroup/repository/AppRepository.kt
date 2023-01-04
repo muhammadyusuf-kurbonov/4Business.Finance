@@ -35,5 +35,9 @@ interface AppRepository {
 
     suspend fun cancelShipment(id: Long)
 
+    suspend fun startShipment(id: Long)
+
+    suspend fun completeShipment(id: Long)
+
     suspend fun assignTransportToShipment(id: Long, transport: Transport)
 }

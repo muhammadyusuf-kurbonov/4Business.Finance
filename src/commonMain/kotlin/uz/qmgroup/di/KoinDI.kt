@@ -1,7 +1,6 @@
 package uz.qmgroup.di
 
 import com.squareup.sqldelight.db.SqlDriver
-import com.squareup.sqldelight.logs.LogSqliteDriver
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -23,12 +22,7 @@ val driverProviderModule = module {
 
     single {
         Database(
-            LogSqliteDriver(
-                sqlDriver = get<DatabaseDriverProvider>().driver,
-                logger = {
-                    println("Running query $it")
-                }
-            )
+            get<DatabaseDriverProvider>().driver,
         )
     }
 

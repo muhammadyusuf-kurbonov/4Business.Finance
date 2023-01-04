@@ -62,6 +62,12 @@ fun ShipmentsScreen(
                             requestDriverSelect = {
                                 currentActiveShipment = shipment
                                 showSelectDriverDialog = true
+                            },
+                            startShipment = {
+                                viewModel.startShipment(shipment)
+                            },
+                            completeShipment = {
+                                viewModel.completeShipment(shipment)
                             }
                         )
                     }

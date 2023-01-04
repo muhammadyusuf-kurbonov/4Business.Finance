@@ -1,12 +1,12 @@
 package uz.qmgroup.repository
 
 import uz.qmgroup.Database
+import uz.qmgroup.ORDERS
+import uz.qmgroup.TRANSPORTS
 import uz.qmgroup.models.Shipment
 import uz.qmgroup.models.ShipmentStatus
 import uz.qmgroup.models.Transport
 import uz.qmgroup.models.TransportType
-import uzqmgroup.ORDERS
-import uzqmgroup.TRANSPORTS
 
 fun ORDERS.toShipment(database: Database) = Shipment(
     orderId = orderId,

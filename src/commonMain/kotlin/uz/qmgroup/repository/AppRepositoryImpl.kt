@@ -1,6 +1,5 @@
 package uz.qmgroup.repository
 
-import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.Dispatchers
@@ -11,10 +10,7 @@ import uz.qmgroup.Database
 import uz.qmgroup.models.Shipment
 import uz.qmgroup.models.Transport
 
-class AppRepositoryImpl(private val database: Database, driver: SqlDriver) : AppRepository {
-    init {
-        Database.Schema.create(driver)
-    }
+class AppRepositoryImpl(private val database: Database) : AppRepository {
 
     override suspend fun createNewTransport(
         driverName: String,
@@ -83,6 +79,14 @@ class AppRepositoryImpl(private val database: Database, driver: SqlDriver) : App
 
     override suspend fun cancelShipment(id: Long) = withContext(Dispatchers.IO) {
         database.orderQueries.cancelOrder(id)
+    }
+
+    override suspend fun startShipment(id: Long) = withContext(Dispatchers.IO) {
+        database.orderQueries.executeOrder(id)
+    }
+
+    override suspend fun completeShipment(id: Long) = withContext(Dispatchers.IO) {
+        database.orderQueries.completeOrder(id)
     }
 
     override suspend fun assignTransportToShipment(id: Long, transport: Transport) = withContext(Dispatchers.IO) {

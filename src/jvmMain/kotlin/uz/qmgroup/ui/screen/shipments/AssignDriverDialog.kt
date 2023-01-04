@@ -87,6 +87,7 @@ fun SelectDriverDialog(
                                 TransportComponent(
                                     modifier = Modifier.fillMaxWidth().clickable {
                                         selectDriver(it)
+                                        onCloseRequest()
                                     },
                                     transport = it
                                 )

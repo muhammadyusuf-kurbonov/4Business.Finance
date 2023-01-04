@@ -7,7 +7,7 @@ import uz.qmgroup.models.Transport
 import uz.qmgroup.repository.AppRepository
 import uz.qmgroup.viewModel.base.BaseViewModel
 
-class ShipmentsViewModel(private val repository: AppRepository): BaseViewModel() {
+class ShipmentsViewModel(private val repository: AppRepository) : BaseViewModel() {
     private val _shipmentsScreenState = MutableStateFlow<ShipmentsScreenState>(ShipmentsScreenState.Loading)
     val shipmentsScreenState = _shipmentsScreenState.asStateFlow()
 
@@ -40,6 +40,22 @@ class ShipmentsViewModel(private val repository: AppRepository): BaseViewModel()
         _workingShipmentsList.update { it.toMutableList().apply { add(shipment.orderId) } }
         viewModelScope.launch {
             repository.assignTransportToShipment(shipment.orderId, transport)
+            _workingShipmentsList.update { it.toMutableList().apply { remove(shipment.orderId) } }
+        }
+    }
+
+    fun startShipment(shipment: Shipment) {
+        _workingShipmentsList.update { it.toMutableList().apply { add(shipment.orderId) } }
+        viewModelScope.launch {
+            repository.startShipment(shipment.orderId)
+            _workingShipmentsList.update { it.toMutableList().apply { remove(shipment.orderId) } }
+        }
+    }
+
+    fun completeShipment(shipment: Shipment) {
+        _workingShipmentsList.update { it.toMutableList().apply { add(shipment.orderId) } }
+        viewModelScope.launch {
+            repository.completeShipment(shipment.orderId)
             _workingShipmentsList.update { it.toMutableList().apply { remove(shipment.orderId) } }
         }
     }

@@ -1,7 +1,7 @@
 package uz.qmgroup.models
 
 enum class ShipmentStatus {
-    CREATED, CANCELLED, ASSIGNED, UNKNOWN
+    CREATED, CANCELLED, ASSIGNED, ON_WAY, COMPLETED, UNKNOWN
 }
 
 data class Shipment(

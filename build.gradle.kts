@@ -73,5 +73,9 @@ compose.desktop {
 sqldelight {
     database("Database") { // This will be the name of the generated database class.
         packageName = "uz.qmgroup"
+        schemaOutputDirectory = file("uz.qmgroup.cache")
+        migrationOutputDirectory = file("uz.qmgroup.cache")
+        deriveSchemaFromMigrations = true
+        verifyMigrations = true
     }
 }

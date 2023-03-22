@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transactions_title">Транзакции</string>
+    <string name="home_title">Главная</string>
+    <string name="import_report_label">Сохранить запись</string>
+    <string name="no_items_label">Пока нет записей</string>
+
+    <string name="new_transaction_label">Новая транзакция</string>
+    <string name="new_transaction_title">Новая транзакция</string>
+
+    <string name="amount_label">Сумма</string>
+    <string name="note_label">Описание</string>
+    <string name="new_transaction_saved_message">Новая транзакция сохранена!</string>
+
+    <string name="string_with_arguments">Hello ${name}!</string>
+    <plurals name="plural_string">
+        <item quantity="one">resource</item>
+        <item quantity="other">resources</item>
+    </plurals>
+</resources>

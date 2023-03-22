@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="4Business.Finance-jvm-1.0-SNAPSHOT">
+    <output-path>$PROJECT_DIR$/build/libs</output-path>
+    <root id="archive" name="4Business.Finance-jvm-1.0-SNAPSHOT.jar">
+      <element id="module-output" name="4Business.Finance.jvmMain" />
+    </root>
+  </artifact>
+</component>

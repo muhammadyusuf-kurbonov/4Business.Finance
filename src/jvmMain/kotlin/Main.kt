@@ -2,13 +2,16 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import uz.qmgroup.di.AppKoinComponent
-import uz.qmgroup.ui.screen.app.AppScreen
+import io.github.skeptick.libres.LibresSettings
+import uz.forbusiness.finance.di.AppKoinComponent
+import uz.forbusiness.finance.ui.screen.app.AppScreen
 
 fun main() = application {
     val viewModel = AppKoinComponent.appViewModel
 
-    Window(onCloseRequest = ::exitApplication, title = "LogiAdmin", state = rememberWindowState(placement = WindowPlacement.Maximized)) {
+    LibresSettings.languageCode = "ru"
+
+    Window(onCloseRequest = ::exitApplication, title = "4Business.Finance", state = rememberWindowState(placement = WindowPlacement.Maximized)) {
         AppScreen(viewModel = viewModel)
     }
 }

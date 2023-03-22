@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transactions_title">Transactions</string>
+    <string name="home_title">Home</string>
+    <string name="import_report_label">Save report</string>
+    <string name="no_items_label">No items yet</string>
+
+    <string name="new_transaction_label">New transaction</string>
+    <string name="new_transaction_title">New transaction</string>
+
+    <string name="amount_label">Amount</string>
+    <string name="note_label">Note</string>
+    <string name="new_transaction_saved_message">New transaction saved!</string>
+
+    <string name="string_with_arguments">Hello ${name}!</string>
+    <plurals name="plural_string">
+        <item quantity="one">resource</item>
+        <item quantity="other">resources</item>
+    </plurals>
+</resources>

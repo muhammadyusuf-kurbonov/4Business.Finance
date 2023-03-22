@@ -1,2 +1,0 @@
-ALTER TABLE ORDERS
-ADD COLUMN updatedAt INTEGER DEFAULT (datetime('now'));

@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AccountBalanceWallet
 import androidx.compose.material.icons.outlined.Archive
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.ImportExport
@@ -68,6 +69,12 @@ fun AppLayout(
                         onClick = { navigate(AppScreenState.TransactionsScreen) },
                         icon = Icons.Outlined.ImportExport,
                         label = MainRes.string.transactions_title
+                    )
+                    NavigationItem(
+                        selected = appScreenState == AppScreenState.AccountsScreen,
+                        onClick = { navigate(AppScreenState.AccountsScreen) },
+                        icon = Icons.Outlined.AccountBalanceWallet,
+                        label = MainRes.string.accounts_title
                     )
 
                     Spacer(modifier = Modifier.weight(1f))

@@ -4,7 +4,7 @@ plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
 
-    id("com.squareup.sqldelight").version("1.5.5")
+    id("app.cash.sqldelight").version("2.0.0-alpha05")
     id("io.github.skeptick.libres").version("1.1.6")
 }
 
@@ -29,7 +29,7 @@ kotlin {
             val koinVersion = extra["koin.version"] as String
 
             dependencies {
-                implementation("com.squareup.sqldelight:coroutines-extensions:1.5.5")
+                implementation("app.cash.sqldelight:coroutines-extensions:2.0.0-alpha05")
 
                 // Koin Core features
                 api("io.insert-koin:koin-core:$koinVersion")
@@ -51,7 +51,7 @@ kotlin {
             dependencies {
                 implementation(compose.desktop.currentOs)
 
-                implementation("com.squareup.sqldelight:sqlite-driver:1.5.5")
+                implementation("app.cash.sqldelight:sqlite-driver:2.0.0-alpha05")
                 // https://mvnrepository.com/artifact/com.googlecode.libphonenumber/libphonenumber
                 implementation("com.googlecode.libphonenumber:libphonenumber:8.13.2")
             }
@@ -80,12 +80,14 @@ compose.desktop {
 }
 
 sqldelight {
-    database("Database") { // This will be the name of the generated database class.
-        packageName = "uz.forbusiness.finance"
-        schemaOutputDirectory = file("uz.forbusiness.finance")
-        migrationOutputDirectory = file("uz.forbusiness.finance")
-        deriveSchemaFromMigrations = true
-        verifyMigrations = true
+    databases {
+        create("Database") { // This will be the name of the generated database class.
+            packageName.set("uz.forbusiness.finance")
+            schemaOutputDirectory.set(file("uz.forbusiness.finance"))
+            migrationOutputDirectory.set(file("uz.forbusiness.finance"))
+            deriveSchemaFromMigrations.set(true)
+            verifyMigrations.set(true)
+        }
     }
 }
 

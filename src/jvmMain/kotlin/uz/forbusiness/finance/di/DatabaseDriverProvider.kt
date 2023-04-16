@@ -1,10 +1,10 @@
 package uz.forbusiness.finance.di
 
-import com.squareup.sqldelight.db.SqlDriver
-import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
+import app.cash.sqldelight.db.SqlDriver
+import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
+import kotlinx.coroutines.runBlocking
 import uz.forbusiness.finance.Database
 import java.io.File
-import java.lang.IllegalStateException
 
 actual class DatabaseDriverProvider actual constructor() {
     actual val driver: SqlDriver
@@ -15,11 +15,14 @@ actual class DatabaseDriverProvider actual constructor() {
 
             driver.execute(identifier = null, "PRAGMA user_version(${Database.Schema.version});", parameters = 0)
         } else {
-            val version = driver.executeQuery(
-                identifier = null,
-                sql = "PRAGMA user_version;",
-                parameters = 0,
-            ).getLong(0) ?: throw IllegalStateException("Could not get database version")
+            val version = runBlocking {
+                driver.executeQuery(
+                    identifier = null,
+                    sql = "PRAGMA user_version;",
+                    parameters = 0,
+                    mapper = { it.getLong(0) }
+                ).await()
+            } ?: throw IllegalStateException("Could not get database version")
 
             Database.Schema.migrate(driver, version.toInt(), Database.Schema.version)
 

@@ -2,6 +2,7 @@
 <resources>
     <string name="transactions_title">Транзакции</string>
     <string name="home_title">Главная</string>
+    <string name="accounts_title">Счета</string>
     <string name="import_report_label">Сохранить запись</string>
     <string name="no_items_label">Пока нет записей</string>
 

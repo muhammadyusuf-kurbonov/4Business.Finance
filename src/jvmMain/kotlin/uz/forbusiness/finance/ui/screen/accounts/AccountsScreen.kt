@@ -1,9 +1,8 @@
-package uz.forbusiness.finance.ui.screen.transactions
+package uz.forbusiness.finance.ui.screen.accounts
 
 import MainRes
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -19,15 +18,14 @@ import androidx.compose.ui.unit.dp
 import uz.forbusiness.finance.di.AppKoinComponent
 import uz.forbusiness.finance.ui.components.EmptyScreen
 import uz.forbusiness.finance.ui.components.LoadingScreen
-import uz.forbusiness.finance.ui.components.TransactionComponent
-import uz.forbusiness.finance.viewModel.transports.TransactionsScreenState
-import uz.forbusiness.finance.viewModel.transports.TransactionsViewModel
+import uz.forbusiness.finance.viewModel.accounts.AccountsScreenState
+import uz.forbusiness.finance.viewModel.accounts.AccountsViewModel
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun TransactionsScreen(
+fun AccountsScreen(
     modifier: Modifier = Modifier,
-    viewModel: TransactionsViewModel = AppKoinComponent.transactionsViewModel
+    viewModel: AccountsViewModel = AppKoinComponent.accountsViewModel
 ) {
     DisposableEffect(viewModel) {
         viewModel.loadData()
@@ -35,7 +33,7 @@ fun TransactionsScreen(
         onDispose { viewModel.clear() }
     }
 
-    val state by viewModel.transactionsScreenStateState.collectAsState()
+    val state by viewModel.accountsScreenState.collectAsState()
     var dialogState by remember {
         mutableStateOf(false)
     }
@@ -52,31 +50,23 @@ fun TransactionsScreen(
 
         AnimatedContent(modifier = modifier.padding(8.dp), targetState = state::class) {
             when (val currentState = state) {
-                is TransactionsScreenState.DataFetched -> {
+                is AccountsScreenState.DataFetched -> {
                     LazyColumn(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                        items(currentState.transactions) { transaction ->
-                            TransactionComponent(modifier = Modifier.fillMaxWidth().clickable {
-
-                            }, transaction = transaction)
+                        items(currentState.transactions) { account ->
+                            Text(account.name)
                             Divider()
                         }
                     }
                 }
 
-                TransactionsScreenState.Loading -> {
+                AccountsScreenState.Loading -> {
                     LoadingScreen()
                 }
 
-                TransactionsScreenState.NoData -> {
+                AccountsScreenState.NoData -> {
                     EmptyScreen()
                 }
             }
         }
-    }
-
-    if (dialogState) {
-        NewTransactionDialog(
-            onDismissRequest = { dialogState = false }
-        )
     }
 }

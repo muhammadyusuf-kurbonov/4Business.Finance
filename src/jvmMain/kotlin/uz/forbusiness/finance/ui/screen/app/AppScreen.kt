@@ -7,6 +7,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import uz.forbusiness.finance.ui.layouts.AppLayout
 import uz.forbusiness.finance.ui.layouts.AppScreenState
+import uz.forbusiness.finance.ui.screen.accounts.AccountsScreen
 import uz.forbusiness.finance.ui.screen.home.HomeScreenContent
 import uz.forbusiness.finance.ui.screen.transactions.TransactionsScreen
 import uz.forbusiness.finance.ui.theme.App4BusinessFinanceTheme
@@ -32,6 +33,10 @@ fun AppScreen(viewModel: AppViewModel) {
 
                     AppScreenState.TransactionsScreen -> {
                         TransactionsScreen(modifier = Modifier.fillMaxSize())
+                    }
+
+                    AppScreenState.AccountsScreen -> {
+                        AccountsScreen(modifier = Modifier.fillMaxSize())
                     }
                 }
             }

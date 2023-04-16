@@ -1,0 +1,13 @@
+queryAll:
+SELECT * FROM Transactions;
+
+search:
+SELECT * FROM Transactions WHERE note LIKE ('%' || :query || '%');
+
+insert:
+INSERT INTO Transactions(note, amount, fromAccount, toAccount, datetime) VALUES (?, ?, ?, ?, ?);
+
+getById:
+SELECT * FROM Transactions WHERE id = :id;
+
+

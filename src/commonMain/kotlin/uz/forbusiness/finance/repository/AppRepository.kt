@@ -1,6 +1,7 @@
 package uz.forbusiness.finance.repository
 
 import kotlinx.coroutines.flow.Flow
+import uz.forbusiness.finance.models.Account
 import uz.forbusiness.finance.models.Transaction
 import java.util.*
 
@@ -12,6 +13,8 @@ interface AppRepository {
     )
 
     fun getAllTransactions(): Flow<List<Transaction>>
+
+    fun getAllAccounts(): Flow<List<Account>>
 
     suspend fun searchTransactions(query: String): List<Transaction>
 

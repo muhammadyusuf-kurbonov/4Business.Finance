@@ -5,5 +5,5 @@ import uz.forbusiness.finance.models.Account
 sealed class AccountsScreenState {
     object Loading: AccountsScreenState()
     object NoData: AccountsScreenState()
-    class DataFetched(val transactions: List<Account>): AccountsScreenState()
+    class DataFetched(val accounts: List<Account>): AccountsScreenState()
 }

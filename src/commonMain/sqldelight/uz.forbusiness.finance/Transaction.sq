@@ -1,3 +1,20 @@
+CREATE TABLE Transactions(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    note TEXT NOT NULL,
+    amount REAL NOT NULL,
+    datetime INTEGER NOT NULL,
+    fromAccount INTEGER NOT NULL,
+    toAccount INTEGER NOT NULL,
+    FOREIGN KEY (fromAccount)
+    REFERENCES Accounts(id)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+    FOREIGN KEY (toAccount)
+    REFERENCES Accounts(id)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE
+);
+
 queryAll:
 SELECT * FROM Transactions;
 

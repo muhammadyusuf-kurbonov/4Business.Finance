@@ -58,6 +58,7 @@ kotlin {
         }
         val jvmTest by getting
     }
+    jvmToolchain(11)
 }
 
 compose.desktop {
@@ -85,7 +86,7 @@ sqldelight {
             packageName.set("uz.forbusiness.finance")
             schemaOutputDirectory.set(file("uz.forbusiness.finance"))
             migrationOutputDirectory.set(file("uz.forbusiness.finance"))
-            deriveSchemaFromMigrations.set(true)
+//            deriveSchemaFromMigrations.set(true)
             verifyMigrations.set(true)
         }
     }

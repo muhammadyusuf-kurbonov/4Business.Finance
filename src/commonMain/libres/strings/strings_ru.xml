@@ -7,11 +7,15 @@
     <string name="no_items_label">Пока нет записей</string>
 
     <string name="new_transaction_label">Новая транзакция</string>
+    <string name="new_account_label">Новый счёт</string>
     <string name="new_transaction_title">Новая транзакция</string>
 
     <string name="amount_label">Сумма</string>
     <string name="note_label">Описание</string>
     <string name="new_transaction_saved_message">Новая транзакция сохранена!</string>
+
+    <string name="account_name_label">Название</string>
+    <string name="new_account_saved_message">Новый счёт открыт!</string>
 
     <string name="string_with_arguments">Hello ${name}!</string>
     <plurals name="plural_string">

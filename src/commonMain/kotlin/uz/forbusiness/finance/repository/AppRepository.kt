@@ -14,11 +14,13 @@ interface AppRepository {
 
     fun getAllTransactions(): Flow<List<Transaction>>
 
-    fun getAllAccounts(): Flow<List<Account>>
-
     suspend fun searchTransactions(query: String): List<Transaction>
 
     suspend fun getTransportById(id: Long): Transaction?
 
     suspend fun searchTransport(query: String): List<Transaction>
+
+    fun getAllAccounts(): Flow<List<Account>>
+
+    suspend fun addNewAccount(account: Account)
 }

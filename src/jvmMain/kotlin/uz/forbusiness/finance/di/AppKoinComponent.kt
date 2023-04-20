@@ -6,6 +6,7 @@ import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import uz.forbusiness.finance.ui.screen.app.AppViewModel
+import uz.forbusiness.finance.viewModel.accounts.AccountDialogViewModel
 import uz.forbusiness.finance.viewModel.transports.TransactionDialogViewModel
 import uz.forbusiness.finance.viewModel.accounts.AccountsViewModel
 import uz.forbusiness.finance.viewModel.transports.TransactionsViewModel
@@ -27,4 +28,5 @@ object AppKoinComponent : KoinComponent {
     val transactionsViewModel: TransactionsViewModel by inject()
     val accountsViewModel: AccountsViewModel by inject()
     val transactionDialogViewModel: TransactionDialogViewModel by inject()
+    val accountDialogViewModel: AccountDialogViewModel by inject()
 }

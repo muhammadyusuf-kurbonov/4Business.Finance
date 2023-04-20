@@ -42,7 +42,7 @@ fun AccountsScreen(
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
             ExtendedFloatingActionButton(
                 onClick = { dialogState = true },
-                text = { Text(MainRes.string.new_transaction_label) },
+                text = { Text(MainRes.string.new_account_label) },
                 icon = { Icon(Icons.Default.Edit, contentDescription = null) },
                 modifier = Modifier.padding(16.dp)
             )
@@ -52,7 +52,7 @@ fun AccountsScreen(
             when (val currentState = state) {
                 is AccountsScreenState.DataFetched -> {
                     LazyColumn(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                        items(currentState.transactions) { account ->
+                        items(currentState.accounts) { account ->
                             Text(account.name)
                             Divider()
                         }
@@ -68,5 +68,11 @@ fun AccountsScreen(
                 }
             }
         }
+    }
+
+    if (dialogState) {
+        NewAccountDialog(onDismissRequest = {
+            dialogState = false
+        })
     }
 }

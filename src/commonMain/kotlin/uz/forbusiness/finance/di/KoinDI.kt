@@ -7,6 +7,7 @@ import org.koin.dsl.module
 import uz.forbusiness.finance.Database
 import uz.forbusiness.finance.repository.AppRepository
 import uz.forbusiness.finance.repository.AppRepositoryImpl
+import uz.forbusiness.finance.viewModel.accounts.AccountDialogViewModel
 import uz.forbusiness.finance.viewModel.transports.TransactionDialogViewModel
 import uz.forbusiness.finance.viewModel.transports.TransactionsViewModel
 import uz.forbusiness.finance.viewModel.accounts.AccountsViewModel
@@ -35,4 +36,5 @@ val viewModelsModule = module {
     singleOf(::TransactionsViewModel)
     singleOf(::AccountsViewModel)
     singleOf(::TransactionDialogViewModel)
+    singleOf(::AccountDialogViewModel)
 }

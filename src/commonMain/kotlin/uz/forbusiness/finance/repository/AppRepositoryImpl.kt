@@ -13,23 +13,33 @@ import java.util.*
 
 class AppRepositoryImpl(private val database: Database) : AppRepository {
 
-    override suspend fun insertNewTransaction(note: String, amount: Float, dateTime: Date) = withContext(Dispatchers.IO) {
-        val transportQueries = database.transactionQueries
+    override suspend fun insertNewTransaction(note: String, amount: Float, dateTime: Date) =
+        withContext(Dispatchers.IO) {
+            val transportQueries = database.transactionQueries
 
-        transportQueries.insert(
-            note = note,
-            amount = amount.toDouble(),
-            fromAccount = 0,
-            toAccount = 0,
-            datetime = dateTime.time
+            transportQueries.insert(
+                note = note,
+                amount = amount.toDouble(),
+                fromAccount = 0,
+                toAccount = 0,
+                datetime = dateTime.time
+            )
+        }
+
+    override fun getAllTransactions(): Flow<List<Transaction>> =
+        database.transactionQueries.queryAll().asFlow().mapToList(Dispatchers.Default)
+            .map { it.map { transactions -> transactions.toTransaction() } }
+
+    override fun getAllAccounts(): Flow<List<Account>> =
+        database.accountQueries.queryAll().asFlow().mapToList(Dispatchers.Default)
+            .map { it.map { accounts -> accounts.toDomainModel() } }
+
+    override suspend fun addNewAccount(account: Account) = withContext(Dispatchers.IO) {
+        database.accountQueries.addNewAccount(
+            account.name,
+            account.balance
         )
     }
-
-    override fun getAllTransactions(): Flow<List<Transaction>> = database.transactionQueries.queryAll().asFlow().mapToList(Dispatchers.Default)
-        .map { it.map { transactions -> transactions.toTransaction() } }
-
-    override fun getAllAccounts(): Flow<List<Account>> = database.accountQueries.queryAll().asFlow().mapToList(Dispatchers.Default)
-        .map { it.map { accounts -> accounts.toDomainModel() } }
 
     override suspend fun searchTransactions(query: String): List<Transaction> = withContext(Dispatchers.IO) {
         val queryResult = if (query.isEmpty())

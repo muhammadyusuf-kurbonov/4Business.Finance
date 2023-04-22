@@ -9,3 +9,6 @@ SELECT * FROM Accounts;
 
 addNewAccount:
 INSERT INTO Accounts(name, balance) VALUES (?, ?);
+
+updateBalance:
+UPDATE Accounts SET balance = balance + :delta WHERE id = :id;

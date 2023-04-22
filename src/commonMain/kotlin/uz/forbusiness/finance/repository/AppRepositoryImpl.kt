@@ -20,6 +20,7 @@ class AppRepositoryImpl(private val database: Database) : AppRepository {
         fromAccount: Account,
         toAccount: Account
     ) = withContext(Dispatchers.IO) {
+        database.transaction {
             val transportQueries = database.transactionQueries
 
             transportQueries.insert(
@@ -29,7 +30,11 @@ class AppRepositoryImpl(private val database: Database) : AppRepository {
                 toAccount = toAccount.accountId,
                 datetime = dateTime.time
             )
+
+            database.accountQueries.updateBalance(-amount.toDouble(), fromAccount.accountId)
+            database.accountQueries.updateBalance(amount.toDouble(), toAccount.accountId)
         }
+    }
 
     override fun getAllTransactions(): Flow<List<Transaction>> =
         database.transactionQueries.queryAll().asFlow().mapToList(Dispatchers.Default)

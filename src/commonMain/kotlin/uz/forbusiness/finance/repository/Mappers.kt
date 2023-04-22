@@ -11,10 +11,20 @@ fun Transactions.toTransaction() = Transaction(
     note = note,
     amount = amount.toFloat(),
     dateTime = Date(datetime),
+    fromAccount = Account(
+        accountId = 0,
+        name = "",
+        balance = 0.0
+    ),
+    toAccount = Account(
+        accountId = 0,
+        name = "",
+        balance = 0.0
+    ),
 )
 
 fun Accounts.toDomainModel() = Account(
     accountId = id,
     name = name,
-    balance = balance
+    balance = balance,
 )

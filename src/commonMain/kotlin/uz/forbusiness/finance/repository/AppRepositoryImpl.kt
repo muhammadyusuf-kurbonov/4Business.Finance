@@ -13,15 +13,20 @@ import java.util.*
 
 class AppRepositoryImpl(private val database: Database) : AppRepository {
 
-    override suspend fun insertNewTransaction(note: String, amount: Float, dateTime: Date) =
-        withContext(Dispatchers.IO) {
+    override suspend fun insertNewTransaction(
+        note: String,
+        amount: Float,
+        dateTime: Date,
+        fromAccount: Account,
+        toAccount: Account
+    ) = withContext(Dispatchers.IO) {
             val transportQueries = database.transactionQueries
 
             transportQueries.insert(
                 note = note,
                 amount = amount.toDouble(),
-                fromAccount = 0,
-                toAccount = 0,
+                fromAccount = fromAccount.accountId,
+                toAccount = toAccount.accountId,
                 datetime = dateTime.time
             )
         }

@@ -18,11 +18,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.rememberDialogState
 import uz.forbusiness.finance.di.AppKoinComponent
+import uz.forbusiness.finance.models.Account
 import uz.forbusiness.finance.models.Transaction
 import uz.forbusiness.finance.ui.providers.LocalSnackbarProvider
 import uz.forbusiness.finance.viewModel.transports.TransactionDialogViewModel
 import uz.forbusiness.finance.viewModel.transports.TransportDialogState
-import java.util.*
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalComposeUiApi::class)
 @Composable
@@ -31,14 +31,7 @@ fun NewTransactionDialog(
     viewModel: TransactionDialogViewModel = AppKoinComponent.transactionDialogViewModel
 ) {
     val (transaction, onTransactionChange) = remember {
-        mutableStateOf(
-            Transaction(
-                transactionId = 0,
-                dateTime = Date(),
-                amount = 0f,
-                note = ""
-            )
-        )
+        mutableStateOf<Transaction?>(null)
     }
 
     DisposableEffect(Unit) {
@@ -48,6 +41,9 @@ fun NewTransactionDialog(
     }
 
     val currentState by viewModel.state.collectAsState()
+    val accounts by produceState<List<Account>>(emptyList(), Unit) {
+        this.value = viewModel.fetchAccounts()
+    }
 
     when (currentState) {
         TransportDialogState.Default, TransportDialogState.SavePending -> {
@@ -72,6 +68,7 @@ fun NewTransactionDialog(
                     ) {
                         TransactionForm(
                             modifier = Modifier.verticalScroll(rememberScrollState()),
+                            accounts = accounts,
                             initialTransaction = transaction,
                             onTransactionChange = onTransactionChange
                         )
@@ -81,9 +78,13 @@ fun NewTransactionDialog(
                                 Text("Отмена")
                             }
 
-                            TextButton(onClick = {
-                                viewModel.save(transaction)
-                            }, enabled = it == TransportDialogState.Default) {
+                            TextButton(
+                                onClick = {
+                                    if (transaction == null) return@TextButton
+                                    viewModel.save(transaction)
+                                },
+                                enabled = it == TransportDialogState.Default && transaction != null
+                            ) {
                                 Text("Сохранить")
                             }
                         }

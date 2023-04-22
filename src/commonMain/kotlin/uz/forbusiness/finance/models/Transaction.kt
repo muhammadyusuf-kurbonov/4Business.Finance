@@ -6,5 +6,7 @@ data class Transaction(
     val transactionId: Long,
     val note: String,
     val amount: Float,
-    val dateTime: Date
+    val dateTime: Date,
+    val fromAccount: Account,
+    val toAccount: Account
 )

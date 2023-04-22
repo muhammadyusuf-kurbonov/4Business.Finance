@@ -9,7 +9,9 @@ interface AppRepository {
     suspend fun insertNewTransaction(
         note: String,
         amount: Float,
-        dateTime: Date
+        dateTime: Date,
+        fromAccount: Account,
+        toAccount: Account
     )
 
     fun getAllTransactions(): Flow<List<Transaction>>

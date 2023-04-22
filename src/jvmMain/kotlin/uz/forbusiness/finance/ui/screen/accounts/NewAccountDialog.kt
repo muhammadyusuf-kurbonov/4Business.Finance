@@ -22,8 +22,6 @@ import uz.forbusiness.finance.models.Account
 import uz.forbusiness.finance.ui.providers.LocalSnackbarProvider
 import uz.forbusiness.finance.viewModel.accounts.AccountDialogState
 import uz.forbusiness.finance.viewModel.accounts.AccountDialogViewModel
-import uz.forbusiness.finance.viewModel.transports.TransactionDialogViewModel
-import uz.forbusiness.finance.viewModel.transports.TransportDialogState
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalComposeUiApi::class)
 @Composable

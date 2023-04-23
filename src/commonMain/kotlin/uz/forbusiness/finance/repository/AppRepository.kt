@@ -8,7 +8,7 @@ import java.util.*
 interface AppRepository {
     suspend fun insertNewTransaction(
         note: String,
-        amount: Float,
+        amount: Double,
         dateTime: Date,
         fromAccount: Account,
         toAccount: Account

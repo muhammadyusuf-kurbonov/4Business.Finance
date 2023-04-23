@@ -9,7 +9,7 @@ import java.util.*
 fun Transactions.toTransaction() = Transaction(
     transactionId = id,
     note = note,
-    amount = amount.toFloat(),
+    amount = amount,
     dateTime = Date(datetime),
     fromAccount = Account(
         accountId = 0,

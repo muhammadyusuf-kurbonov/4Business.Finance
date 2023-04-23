@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.isCtrlPressed
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -57,17 +58,20 @@ fun NewTransactionDialog(
                 onKeyEvent = {
                     when (it.key) {
                         Key.Escape -> onDismissRequest()
+                        Key.Enter -> if (it.isCtrlPressed) {
+                            if (transaction != null) viewModel.save(transaction)
+                        }
                     }
                     false
                 }
             ) {
                 AnimatedContent(currentState) {
                     Column(
-                        modifier = Modifier.fillMaxWidth().padding(16.dp),
+                        modifier = Modifier.fillMaxWidth().padding(16.dp).verticalScroll(rememberScrollState()),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         TransactionForm(
-                            modifier = Modifier.verticalScroll(rememberScrollState()),
+                            modifier = Modifier,
                             accounts = accounts,
                             initialTransaction = transaction,
                             onTransactionChange = onTransactionChange

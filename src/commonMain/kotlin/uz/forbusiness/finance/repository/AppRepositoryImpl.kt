@@ -15,7 +15,7 @@ class AppRepositoryImpl(private val database: Database) : AppRepository {
 
     override suspend fun insertNewTransaction(
         note: String,
-        amount: Float,
+        amount: Double,
         dateTime: Date,
         fromAccount: Account,
         toAccount: Account
@@ -25,14 +25,14 @@ class AppRepositoryImpl(private val database: Database) : AppRepository {
 
             transportQueries.insert(
                 note = note,
-                amount = amount.toDouble(),
+                amount = amount,
                 fromAccount = fromAccount.accountId,
                 toAccount = toAccount.accountId,
                 datetime = dateTime.time
             )
 
-            database.accountQueries.updateBalance(-amount.toDouble(), fromAccount.accountId)
-            database.accountQueries.updateBalance(amount.toDouble(), toAccount.accountId)
+            database.accountQueries.updateBalance(-amount, fromAccount.accountId)
+            database.accountQueries.updateBalance(amount, toAccount.accountId)
         }
     }
 

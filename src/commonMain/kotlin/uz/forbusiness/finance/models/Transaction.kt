@@ -5,7 +5,7 @@ import java.util.Date
 data class Transaction(
     val transactionId: Long,
     val note: String,
-    val amount: Float,
+    val amount: Double,
     val dateTime: Date,
     val fromAccount: Account,
     val toAccount: Account

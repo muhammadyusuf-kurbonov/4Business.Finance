@@ -13,6 +13,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import uz.forbusiness.finance.models.Account
 import uz.forbusiness.finance.models.Transaction
+import java.text.NumberFormat
+import java.text.ParseException
 import java.util.*
 
 @Composable
@@ -24,7 +26,7 @@ fun TransactionForm(
 ) {
     val (amount, onAmountChanged) = remember(initialTransaction.toString()) {
         mutableStateOf(
-            initialTransaction?.amount ?: 0f
+            initialTransaction?.amount ?: 0.0
         )
     }
     val (note, onNoteChanged) = remember(initialTransaction.toString()) {
@@ -36,6 +38,8 @@ fun TransactionForm(
     var expandedTo by remember { mutableStateOf(false) }
     var selectedFromAccount by remember { mutableStateOf<Account?>(null) }
     var selectedToAccount by remember { mutableStateOf<Account?>(null) }
+
+    val numberFormatter = remember { NumberFormat.getCurrencyInstance() }
 
     val transaction by remember(amount, note, selectedFromAccount, selectedToAccount) {
         derivedStateOf {
@@ -128,9 +132,15 @@ fun TransactionForm(
         }
 
         OutlinedTextField(
-            value = amount.toString(),
+            value = numberFormatter.format(amount),
             onValueChange = {
-                onAmountChanged(it.toDoubleOrNull()?.toFloat() ?: 0.0f)
+                onAmountChanged(
+                    try {
+                        numberFormatter.parse(it).toDouble()
+                    } catch (e: ParseException) {
+                        0.0
+                    }
+                )
             },
             modifier = Modifier.fillMaxWidth(),
             label = {

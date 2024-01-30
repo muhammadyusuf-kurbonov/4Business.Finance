@@ -1,5 +1,5 @@
 insert:
-INSERT INTO TRANSACTIONS(note, amount, datetime) VALUES (?, ?, ?);
+INSERT INTO TRANSACTIONS(note, amount, debit_account, credit_account, datetime) VALUES (?, ?, ?, ?, ?);
 
 queryAll:
 SELECT * FROM TRANSACTIONS;

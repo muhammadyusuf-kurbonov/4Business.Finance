@@ -1,0 +1,7 @@
+import uz.forbusiness.finance.models.AccountType;
+
+CREATE TABLE IF NOT EXISTS ACCOUNTS(
+    code INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    type TEXT AS AccountType NOT NULL
+);

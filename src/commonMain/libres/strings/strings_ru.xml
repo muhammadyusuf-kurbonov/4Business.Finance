@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="transactions_title">Транзакции</string>
+    <string name="accounts_title">Счета</string>
     <string name="home_title">Главная</string>
     <string name="import_report_label">Сохранить запись</string>
     <string name="no_items_label">Пока нет записей</string>
 
     <string name="new_transaction_label">Новая транзакция</string>
     <string name="new_transaction_title">Новая транзакция</string>
+    <string name="add">Добавить</string>
+
+    <string name="new_account_title">Новый счёт</string>
 
     <string name="amount_label">Сумма</string>
+    <string name="debit_label">Дебет</string>
+    <string name="credit_label">Кредит</string>
     <string name="note_label">Описание</string>
     <string name="new_transaction_saved_message">Новая транзакция сохранена!</string>
 

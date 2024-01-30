@@ -1,0 +1,18 @@
+insert:
+INSERT INTO ACCOUNTS(code, name, type) VALUES (?, ?, ?);
+
+queryAll:
+SELECT * FROM ACCOUNTS;
+
+search:
+SELECT * FROM ACCOUNTS WHERE name LIKE ('%' || :query || '%');
+
+getById:
+SELECT * FROM ACCOUNTS WHERE code = :id;
+
+queryWithBalances:
+SELECT a.*,
+  SUM(CASE WHEN t.credit_account = a.code THEN -t.amount ELSE t.amount END) AS balance
+FROM ACCOUNTS a
+LEFT JOIN TRANSACTIONS t ON a.code IN (t.debit_account, t.credit_account)
+GROUP BY a.code;

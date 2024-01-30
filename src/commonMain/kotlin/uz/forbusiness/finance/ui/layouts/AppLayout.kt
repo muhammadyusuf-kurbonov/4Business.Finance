@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Archive
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.ImportExport
 import androidx.compose.runtime.Composable
@@ -20,13 +19,12 @@ import androidx.compose.ui.unit.dp
 import uz.forbusiness.finance.ui.components.NavigationItem
 import uz.forbusiness.finance.ui.providers.LocalSnackbarProvider
 import uz.forbusiness.finance.ui.providers.ShowSnackbarDispatcher
+import uz.forbusiness.finance.ui.root.RootComponent
 
 @Composable
 fun AppLayout(
     modifier: Modifier = Modifier,
-    appScreenState: AppScreenState,
-    navigate: (AppScreenState) -> Unit,
-    openNewShipmentDialog: () -> Unit,
+    navigate: (RootComponent.NavigationItemDestination) -> Unit,
     content: @Composable () -> Unit
 ) {
     val snackbatHostState = remember { SnackbarHostState() }
@@ -58,30 +56,30 @@ fun AppLayout(
                     Divider()
 
                     NavigationItem(
-                        selected = appScreenState == AppScreenState.HomeScreen,
-                        onClick = { navigate(AppScreenState.HomeScreen) },
+                        selected = false,
+                        onClick = { navigate(RootComponent.NavigationItemDestination.ListAccounts) },
                         icon = Icons.Outlined.Home,
-                        label = MainRes.string.home_title,
+                        label = MainRes.string.accounts_title,
                     )
                     NavigationItem(
-                        selected = appScreenState == AppScreenState.TransactionsScreen,
-                        onClick = { navigate(AppScreenState.TransactionsScreen) },
+                        selected = false,
+                        onClick = { navigate(RootComponent.NavigationItemDestination.TransactionsList) },
                         icon = Icons.Outlined.ImportExport,
                         label = MainRes.string.transactions_title
                     )
 
                     Spacer(modifier = Modifier.weight(1f))
 
-                    Button(
-                        onClick = openNewShipmentDialog,
-                        modifier = Modifier.fillMaxWidth(),
-                    ) {
-                        Icon(Icons.Outlined.Archive, contentDescription = null)
-
-                        Spacer(modifier = Modifier.width(8.dp))
-
-                        Text(MainRes.string.import_report_label)
-                    }
+//                    Button(
+//                        onClick = openNewShipmentDialog,
+//                        modifier = Modifier.fillMaxWidth(),
+//                    ) {
+//                        Icon(Icons.Outlined.Archive, contentDescription = null)
+//
+//                        Spacer(modifier = Modifier.width(8.dp))
+//
+//                        Text(MainRes.string.import_report_label)
+//                    }
                 }
 
                 Box(modifier = Modifier.padding(32.dp, 16.dp)) {
